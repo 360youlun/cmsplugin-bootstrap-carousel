@@ -11,6 +11,7 @@ from cStringIO import StringIO
 
 DEF_SIZE = (800, 600)
         
+
 class Carousel(CMSPlugin):
     domid = models.CharField(max_length=50, verbose_name=_('Name'))
     interval = models.IntegerField(default=5000)
@@ -24,9 +25,12 @@ class Carousel(CMSPlugin):
     def __unicode__(self):
         return self.domid
 
+
 class CarouselItem(models.Model):
     carousel = models.ForeignKey(Carousel)
     caption_title = models.CharField(max_length=100, blank=True, null=True)
+    button_title = models.CharField(max_length=255, blank=True)
+    button_url = models.URLField(blank=True)
     caption_content = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to="uploads/", blank=True, null=True)
 
