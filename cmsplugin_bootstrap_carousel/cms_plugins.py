@@ -17,8 +17,10 @@ class CarouselForm(ModelForm):
             raise ValidationError(_("The name must be a single word beginning with a letter"))
         return data
 
-class CarouselItemInline(admin.TabularInline):
+
+class CarouselItemInline(admin.StackedInline):
     model = CarouselItem
+
 
 class CarouselPlugin(CMSPluginBase):
     model = Carousel
