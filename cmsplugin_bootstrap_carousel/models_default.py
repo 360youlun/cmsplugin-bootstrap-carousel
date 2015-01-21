@@ -42,15 +42,16 @@ class CarouselItem(models.Model):
                 img = img.convert('RGB')
             size = getattr(settings, "BOOTSTRAP_CAROUSEL_IMGSIZE", DEF_SIZE)
             extension = getattr(settings, "BOOTSTRAP_CAROUSEL_FILE_EXTENSION", DEF_EXTENSION)
-            img.thumbnail(size, Image.ANTIALIAS)
+            if size != img.size:
+                img.thumbnail(size, Image.ANTIALIAS)
 
-            temp_handle = StringIO()
-            img.save(temp_handle, extension)
-            temp_handle.seek(0)
+                temp_handle = StringIO()
+                img.save(temp_handle, extension)
+                temp_handle.seek(0)
 
-            suf = SimpleUploadedFile(os.path.split(self.image.name)[-1],
-                                     temp_handle.read(), content_type='image/%s' % extension)
-            fname = "%s.%s" % (os.path.splitext(self.image.name)[0], extension)
-            self.image.save(fname, suf, save=False)
+                suf = SimpleUploadedFile(os.path.split(self.image.name)[-1],
+                                         temp_handle.read(), content_type='image/%s' % extension)
+                fname = "%s.%s" % (os.path.splitext(self.image.name)[0], extension)
+                self.image.save(fname, suf, save=False)
 
         super(CarouselItem, self).save()
