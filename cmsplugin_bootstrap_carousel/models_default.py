@@ -10,8 +10,7 @@ from PIL import Image
 from cStringIO import StringIO
 
 DEF_SIZE = (800, 600)
-DEF_EXTENSION = 'jpg'
-DEF_TYPE = 'image/jpeg'
+DEF_EXTENSION = 'jpeg'
         
 
 class Carousel(CMSPlugin):
@@ -43,7 +42,6 @@ class CarouselItem(models.Model):
                 img = img.convert('RGB')
             size = getattr(settings, "BOOTSTRAP_CAROUSEL_IMGSIZE", DEF_SIZE)
             extension = getattr(settings, "BOOTSTRAP_CAROUSEL_FILE_EXTENSION", DEF_EXTENSION)
-            content_type = getattr(settings, "BOOTSTRAP_CAROUSEL_FILE_CONTENT_TYPE", DEF_TYPE)
             img.thumbnail(size, Image.ANTIALIAS)
 
             temp_handle = StringIO()
@@ -51,7 +49,7 @@ class CarouselItem(models.Model):
             temp_handle.seek(0)
 
             suf = SimpleUploadedFile(os.path.split(self.image.name)[-1],
-                                     temp_handle.read(), content_type=content_type)
+                                     temp_handle.read(), content_type='image/%s' % extension)
             fname = "%s.%s" % (os.path.splitext(self.image.name)[0], extension)
             self.image.save(fname, suf, save=False)
 
