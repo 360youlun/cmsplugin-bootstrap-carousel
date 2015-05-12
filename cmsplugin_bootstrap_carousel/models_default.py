@@ -8,6 +8,7 @@ from django.utils.translation import ugettext as _
 from cms.models.pluginmodel import CMSPlugin
 from PIL import Image
 from cStringIO import StringIO
+from . import config
 
 DEF_SIZE = (800, 600)
 DEF_EXTENSION = 'jpeg'
@@ -34,6 +35,14 @@ class CarouselItem(models.Model):
     button_url = models.URLField(blank=True)
     caption_content = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to="uploads/", blank=True, null=True)
+    text_position = models.CharField(max_length=10, choices=config.CAROUSEL_TEXT_POSITIONS,
+                                     default=config.CAROUSEL_TEXT_POSITION_LEFT)
+    transition = models.CharField(max_length=30, choices=config.CAROUSEL_TRANS_CHOICES,
+                                  default=config.CAROUSEL_TRANS_NO_TRANSITION)
+    start_position = models.CharField(max_length=20, choices=config.CAROUSEL_MOVEMENT_POSITION_CHOICES,
+                                      default=config.CAROUSEL_MOVEMENT_POSITION_LEFT_TOP_LABEL)
+    end_position = models.CharField(max_length=20, choices=config.CAROUSEL_MOVEMENT_POSITION_CHOICES,
+                                    default=config.CAROUSEL_MOVEMENT_POSITION_LEFT_TOP_LABEL)
 
     def save(self, *args, **kwargs):
         if self.image:
