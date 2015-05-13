@@ -29,20 +29,23 @@ class Carousel(CMSPlugin):
 
 
 class CarouselItem(models.Model):
-    carousel = models.ForeignKey(Carousel)
-    caption_title = models.CharField(max_length=100, blank=True, null=True)
-    button_title = models.CharField(max_length=255, blank=True)
-    button_url = models.URLField(blank=True)
-    caption_content = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to="uploads/", blank=True, null=True)
+    carousel = models.ForeignKey(Carousel, verbose_name=_("Carousel"))
+    caption_title = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Caption Title"))
+    button_title = models.CharField(max_length=255, blank=True, verbose_name=_("Button Title"))
+    button_url = models.URLField(blank=True, verbose_name=_("Button URL"))
+    caption_content = models.TextField(blank=True, null=True, verbose_name=_("Caption Content"))
+    image = models.ImageField(upload_to=getattr(settings, "CAROUSEL_UPLOADS_FOLDER", "uploads/"),
+                              blank=True, null=True, verbose_name=_("Image"))
     text_position = models.CharField(max_length=10, choices=config.CAROUSEL_TEXT_POSITIONS,
-                                     default=config.CAROUSEL_TEXT_POSITION_LEFT)
-    transition = models.CharField(max_length=30, choices=config.CAROUSEL_TRANS_CHOICES,
-                                  default=config.CAROUSEL_TRANS_NO_TRANSITION)
+                                     default=config.CAROUSEL_TEXT_POSITION_LEFT, verbose_name=_("Text Position"))
+    transition = models.CharField(max_length=30, choices=config.CAROUSEL_TRANSITION_CHOICES,
+                                  default=config.CAROUSEL_TRANS_NO_TRANSITION, verbose_name=_("Transition"))
     start_position = models.CharField(max_length=20, choices=config.CAROUSEL_MOVEMENT_POSITION_CHOICES,
-                                      default=config.CAROUSEL_MOVEMENT_POSITION_LEFT_TOP_LABEL)
+                                      default=config.CAROUSEL_MOVEMENT_POSITION_LEFT_TOP_LABEL,
+                                      verbose_name=_("Start Position"))
     end_position = models.CharField(max_length=20, choices=config.CAROUSEL_MOVEMENT_POSITION_CHOICES,
-                                    default=config.CAROUSEL_MOVEMENT_POSITION_LEFT_TOP_LABEL)
+                                    default=config.CAROUSEL_MOVEMENT_POSITION_LEFT_TOP_LABEL,
+                                    verbose_name=_("End Position"))
 
     def save(self, *args, **kwargs):
         if self.image:
