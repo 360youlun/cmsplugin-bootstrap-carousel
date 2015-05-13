@@ -1,7 +1,6 @@
 # coding: utf-8
 import os
 from django.db import models
-from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.utils.translation import ugettext as _
 
@@ -10,9 +9,6 @@ from PIL import Image
 from cStringIO import StringIO
 from . import config
 
-DEF_SIZE = (800, 600)
-DEF_EXTENSION = 'jpeg'
-        
 
 class Carousel(CMSPlugin):
     domid = models.CharField(max_length=50, verbose_name=_('Name'))
@@ -34,8 +30,7 @@ class CarouselItem(models.Model):
     button_title = models.CharField(max_length=255, blank=True, verbose_name=_("Button Title"))
     button_url = models.URLField(blank=True, verbose_name=_("Button URL"))
     caption_content = models.TextField(blank=True, null=True, verbose_name=_("Caption Content"))
-    image = models.ImageField(upload_to=getattr(settings, "CAROUSEL_UPLOADS_FOLDER", "uploads/"),
-                              blank=True, null=True, verbose_name=_("Image"))
+    image = models.ImageField(upload_to=config.CAROUSEL_UPLOADS_FOLDER, blank=True, null=True, verbose_name=_("Image"))
     text_position = models.CharField(max_length=10, choices=config.CAROUSEL_TEXT_POSITIONS,
                                      default=config.CAROUSEL_TEXT_POSITION_LEFT, verbose_name=_("Text Position"))
     transition = models.CharField(max_length=30, choices=config.CAROUSEL_TRANSITION_CHOICES,
@@ -52,8 +47,8 @@ class CarouselItem(models.Model):
             img = Image.open(self.image.file)
             if img.mode not in ('L', 'RGB'):
                 img = img.convert('RGB')
-            size = getattr(settings, "BOOTSTRAP_CAROUSEL_IMGSIZE", DEF_SIZE)
-            extension = getattr(settings, "BOOTSTRAP_CAROUSEL_FILE_EXTENSION", DEF_EXTENSION)
+            size = config.BOOTSTRAP_CAROUSEL_IMGSIZE
+            extension = config.BOOTSTRAP_CAROUSEL_FILE_EXTENSION
             if size != img.size:
                 img.thumbnail(size, Image.ANTIALIAS)
 
