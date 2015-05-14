@@ -30,7 +30,7 @@ class CarouselItem(models.Model):
     button_title = models.CharField(max_length=255, blank=True, verbose_name=_("Button Title"))
     button_url = models.URLField(blank=True, verbose_name=_("Button URL"))
     caption_content = models.TextField(blank=True, null=True, verbose_name=_("Caption Content"))
-    image = models.ImageField(upload_to=config.CAROUSEL_UPLOADS_FOLDER, blank=True, null=True, verbose_name=_("Image"))
+    image = models.ImageField(upload_to=config.CAROUSEL_UPLOADS_FOLDER, null=True, verbose_name=_("Image"))
     text_position = models.CharField(max_length=10, choices=config.CAROUSEL_TEXT_POSITIONS,
                                      default=config.CAROUSEL_TEXT_POSITION_LEFT, verbose_name=_("Text Position"))
     transition = models.CharField(max_length=30, choices=config.CAROUSEL_TRANSITION_CHOICES,
