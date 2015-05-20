@@ -20,6 +20,7 @@ class CarouselForm(ModelForm):
 
 class CarouselItemInline(admin.StackedInline):
     model = CarouselItem
+    extra = 0
 
 
 class CarouselPlugin(CMSPluginBase):
