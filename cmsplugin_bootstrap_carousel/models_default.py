@@ -43,6 +43,8 @@ class CarouselItem(models.Model):
                                     verbose_name=_("End Position"))
     zoom = models.CharField(max_length=3, choices=config.CAROUSEL_ZOOM_CHOICES,
                             default=config.CAROUSEL_ZOOM_NO, verbose_name=_('Zoom'))
+    target = models.CharField(max_length=10, choices=config.CAROUSEL_OPEN_TAB_CHOICES,
+                              default=config.CAROUSEL_OPEN_IN_CURRENT_TAB, verbose_name=_('Target'))
 
     def save(self, *args, **kwargs):
         if self.image:
