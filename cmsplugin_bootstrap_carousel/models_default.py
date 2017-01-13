@@ -2,7 +2,7 @@
 import os
 from django.db import models
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 from cms.models.pluginmodel import CMSPlugin
 from PIL import Image
